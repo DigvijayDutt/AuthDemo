@@ -12,6 +12,13 @@ app.use(session({
     saveUninitialized: true
 }));
 
+const requireLogin = (req,res,next)=>{
+    if(!req.session.user_id){
+        return res.redirect('/login')
+    }
+    next();
+}
+
 mongo.connect('mongodb://127.0.0.1:27017/authdemo')
     .then(()=>{
         console.log("✅");
@@ -59,7 +66,7 @@ app.post('/login',async(req,res)=>{
     }
 })
 
-app.get('/secret', (req,res)=>{
+app.get('/secret', requireLogin, (req,res)=>{
     if(req.session.user_id){
         res.render("secret");
     }else{
