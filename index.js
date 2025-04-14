@@ -3,8 +3,10 @@ const app = ex();
 const User = require('./models/user');
 const mongo = require('mongoose');
 const bc = require('bcrypt');
+var session  = require('express-session');
 
 app.use(ex.urlencoded({extended:true}));
+app.use(session({secret: 'secret'}));
 
 mongo.connect('mongodb://127.0.0.1:27017/authdemo')
     .then(()=>{
