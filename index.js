@@ -56,10 +56,9 @@ app.get('/login',(req,res)=>{
 })
 app.post('/login',async(req,res)=>{
     const {username,password} = req.body;
-    const user = await User.findOne({username});
-    const check = await bc.compare(password, user.password);
-    if(check){
-        req.session.user_id = user._id;
+    const found = await User.findAndValidate(username,password);
+    if(found){
+        req.session.user_id = found._id;
         res.redirect('/secret');
     }else{
         res.redirect("/login");
