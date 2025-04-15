@@ -47,7 +47,7 @@ app.post('/register', async(req,res)=>{
     })
     await user.save();
     req.session.user_id = user._id;
-    res.redirect('/');
+    res.redirect('/login');
 })
 
 app.get('/login',(req,res)=>{

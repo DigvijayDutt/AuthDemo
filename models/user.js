@@ -19,6 +19,7 @@ userSchema.statics.findAndValidate = async function(username, password){
 }
 
 userSchema.pre('save', async function(next){
+    if(!this.isModified('password')) return next();
     this.password = await bc.hash(this.password, 12);
     next();
 })
