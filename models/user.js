@@ -18,4 +18,9 @@ userSchema.statics.findAndValidate = async function(username, password){
     return check ? found : false;
 }
 
+userSchema.pre('save', async function(next){
+    this.password = await bc.hash(this.password, 12);
+    next();
+})
+
 module.exports = mongoose.model("User", userSchema);
